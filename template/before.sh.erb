@@ -1,0 +1,15 @@
+# Export the module function if it exists
+
+exec &> >(tee -a "pod.log")
+
+source /etc/profile.d/lmod.sh
+
+source /bin/find_host_port
+source /bin/save_passwd_as_secret
+password="$PASSWORD"
+host="$HOST_CFG"
+port="$PORT_CFG"
+export SINGULARITY_HOME="$HOME"
+
+export RSTUDIO_PASSWORD="${password}"
+

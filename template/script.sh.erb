@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+module purge
+
+module purge
+module load project/classroom xalt/latest rstudio/<%= context.classroom %>
+
+#
+# Start RStudio Server
+#
+# PAM auth helper used by RStudio
+export WORKING_DIR="<%= session.staged_root %>"
+export RSTUDIO_AUTH="$WORKING_DIR/bin/auth"
+
+CLASS_DIR="$HOME/osc_classes/${OSC_CLASS_ID:-osc_class}"
+
+# Copy over classroom materials if the env variable exists
+if [[ -n "$OSC_CLASS_FILES" ]]; then
+  set -x  
+  mkdir -p "$CLASS_DIR"
+  touch "$CLASS_DIR/0_${OSC_CLASS_ID:-osc_class}.md"
+  rsync -avz --ignore-existing "$OSC_CLASS_FILES" "$CLASS_DIR"
+  { set +x; } 2>/dev/null
+fi
+
+# Generate an `rsession` wrapper script
+export RSESSION_WRAPPER_FILE="$WORKING_DIR/rsession.sh"
+(
+umask 077
+sed 's/^ \{2\}//' > "$WORKING_DIR/rsession.sh" << EOL
+  #!/usr/bin/env bash
+
+  # Log all output from this script
+  export RSESSION_LOG_FILE="$WORKING_DIR/rsession.log"
+
+  exec &>>"\${RSESSION_LOG_FILE}"
+
+  # rsession.sh doesn't share the same env as the outside script, so these
+  # need to be set explicitly
+  export R_LIBS_SITE="${R_LIBS_SITE}"
+  export TZ="US/Eastern"
+  export HOME="$CLASS_DIR"
+  export MODULEPATH_ROOT="$MODULEPATH_ROOT"
+  export MODULEPATH="$MODULEPATH"
+  export LMOD_PKG="$LMOD_PKG"
+
+  # Launch the original command
+  echo "Launching rsession..."
+  set -x
+  exec rsession --r-libs-user "${R_LIBS_USER}" "\${@}"
+EOL
+)
+chmod 700 "$WORKING_DIR/rsession.sh"
+
+
+# Output debug info
+module list
+
+set -x
+# Launch the RStudio Server
+echo "Starting up rserver..."
+
+cd "$DEST_DIR"
+rserver \
+  --www-port 8080 \
+  --auth-none 0 \
+  --auth-pam-helper-path "${RSTUDIO_AUTH}" \
+  --auth-encrypt-password 0 \
+  --rsession-path "${RSESSION_WRAPPER_FILE}"

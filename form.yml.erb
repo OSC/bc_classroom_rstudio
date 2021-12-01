@@ -44,8 +44,8 @@ attributes:
       * **medium** - 2 cores & 8 GB of memory.
       * **large** - 4 cores & 16 GB of memory.
       * **extra-large** - 8 cores & 32 GB of memory.
+  classroom:
   <%- if classrooms.size >= 1 -%>
-  classroom:  
     widget: select
     options:
       <%- classrooms.each do |key, value| %>
@@ -54,4 +54,7 @@ attributes:
         data-set-account: "<%= value %>"
         ]
       <%- end %>
+  <%- else -%>
+    widget: 'hidden_field'
+    value: 'no_classroom'
   <%- end -%>

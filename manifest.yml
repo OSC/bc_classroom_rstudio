@@ -1,7 +1,7 @@
 ---
 name: Classroom RStudio
 category: Interactive Apps
-subcategory: classroom
+subcategory: Classrooms
 role: batch_connect
 description: |
   This app will launch [RStudio Server] server for use in a classroom.

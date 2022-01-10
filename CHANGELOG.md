@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.1] - 2022-01-10
+
+### Fixed
+
+- Removed duplicate size in [10](https://github.com/OSC/bc_classroom_rstudio/pull/10).
+- Fixe the extra-large sizes in [11](https://github.com/OSC/bc_classroom_rstudio/pull/11).
+
+
 ## [0.2.0] - 2021-12-16
 
 ### Changed

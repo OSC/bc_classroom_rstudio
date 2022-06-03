@@ -17,6 +17,7 @@
       size: tokens[1].nil? ? 1 : tokens[1].to_i,
       time: tokens[2].nil? ? 1 : tokens[2].to_i,
       compute_cluster: tokens[3].nil? ? 'pitzer' : tokens[3].to_s,
+      r_version: tokens[4].nil? ? '4.0.2' : tokens[4].to_s,
       account: v,
     }
   end
@@ -32,10 +33,13 @@ form:
   - size
   - time
   - compute_cluster
+  - r_version
 attributes:
   account:
     widget: "hidden_field"
   compute_cluster:
+    widget: "hidden_field"
+  r_version:
     widget: "hidden_field"
   time:
     widget: "select"
@@ -107,7 +111,8 @@ attributes:
       - [
         "<%= cr[:name].gsub('_', ' ') %>", "<%= cr[:name] %>",
         data-set-account: "<%= cr[:account] %>",
-        data-set-compute-cluster: "<%= cr[:compute_cluster] %>"
+        data-set-compute-cluster: "<%= cr[:compute_cluster] %>",
+        data-set-r-version: "<%= cr[:r_version] %>"
         ]
       <%- end %>
   <%- else -%>

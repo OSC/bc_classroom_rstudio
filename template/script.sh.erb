@@ -2,8 +2,10 @@
 
 module purge
 
-module purge
-module load project/classroom xalt/latest rstudio/<%= context.classroom %>
+export OSC_CLASS_ID="<%= context.classroom %>"
+export OSC_PROJECT_ID="<%= context.account %>"
+
+module load project/classroom xalt/latest classroom_rstudio/<%= context.r_version %>
 
 #
 # Start RStudio Server

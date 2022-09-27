@@ -53,7 +53,7 @@ sed 's/^ \{2\}//' > "$WORKING_DIR/rsession.sh" << EOL
 EOL
 )
 chmod 700 "$WORKING_DIR/rsession.sh"
-
+mkdir -p "$WORKING_DIR/logs"
 
 # Output debug info
 module list
@@ -68,4 +68,9 @@ rserver \
   --auth-none 0 \
   --auth-pam-helper-path "${RSTUDIO_AUTH}" \
   --auth-encrypt-password 0 \
-  --rsession-path "${RSESSION_WRAPPER_FILE}"
+  --rsession-path "${RSESSION_WRAPPER_FILE}" \
+  <%- if version > '4.1' -%>
+  --database-config-file='/etc/rstudio/database/database.conf' \
+  --server-data-dir='/tmp/run' \
+  --server-user=$(whoami)
+  <%- end -%>

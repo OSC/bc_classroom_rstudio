@@ -37,6 +37,10 @@
   apps_path = compute_cluster == 'pitzer' ? '/apps' : '/usr/local'
 -%>
 ---
+batch_connect:
+  template: "basic"
+  conn_params:
+    - csrf_token
 script:
   accounting_id: "<%= account %>"
   wall_time: "<%= time.to_f * 3600 %>"
@@ -102,3 +106,28 @@ script:
         host_type: Directory
         path: "/apps/<%= compute_cluster %>"
         destination_path: "<%= apps_path %>"
+    configmap:
+      files:
+        - filename: "logging.conf"
+          data: |
+            [*]
+            log-level=debug
+            logger-type=file
+            log-dir=<%= staged_root %>/logs
+          mount_path: '/etc/rstudio'
+        - filename: "database.conf"
+          data: |
+            directory=/tmp/lib/rstudio-server
+          mount_path: '/etc/rstudio/database'
+        - filename: 'k8_helper'
+          data: |
+            #!/usr/bin/env bash
+
+            set -x
+
+            KEY=$1
+            VALUE=$(echo -n $2 | base64)
+            CFG="$(hostname)-secret"
+
+            kubectl get secret ${CFG} -o json | jq --arg key $KEY --arg value $VALUE '.data[$key] = $value'  | kubectl apply -f -
+          mount_path: '/opt/open_ondemand/helpers'

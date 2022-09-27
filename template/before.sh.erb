@@ -9,7 +9,13 @@ source /bin/save_passwd_as_secret
 password="$PASSWORD"
 host="$HOST_CFG"
 port="$PORT_CFG"
-export SINGULARITY_HOME="$HOME"
 
+# rstudio 1.4+ needs a csrf token
+csrf_token=<%= SecureRandom.uuid %>
+echo "password is: $password"
+
+/bin/bash /opt/open_ondemand/helpers/k8_helper csrf_token "$csrf_token"
+
+export SINGULARITY_HOME="$HOME"
 export RSTUDIO_PASSWORD="${password}"
 

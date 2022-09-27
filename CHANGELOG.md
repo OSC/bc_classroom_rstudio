@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.5.1] - 2022-09-27
+
+- Fixed 0.5.0 release in [20](https://github.com/OSC/bc_classroom_rstudio/pull/20).
+
 ## [0.5.0] - 2022-09-27
 
 - Added support for R 4.1.0 in [19](https://github.com/OSC/bc_classroom_rstudio/pull/19).
@@ -47,7 +51,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - initial release
 
-[Unreleased]: https://github.com/OSC/bc_classroom_rstudio/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/OSC/bc_classroom_rstudio/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/OSC/bc_classroom_rstudio/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/OSC/bc_classroom_rstudio/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/OSC/bc_classroom_rstudio/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/OSC/bc_classroom_rstudio/compare/v0.3.0...v0.4.0

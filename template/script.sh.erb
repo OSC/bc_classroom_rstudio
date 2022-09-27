@@ -69,7 +69,7 @@ rserver \
   --auth-pam-helper-path "${RSTUDIO_AUTH}" \
   --auth-encrypt-password 0 \
   --rsession-path "${RSESSION_WRAPPER_FILE}" \
-  <%- if version > '4.1' -%>
+  <%- if context.r_version > '4.1' -%>
   --database-config-file='/etc/rstudio/database/database.conf' \
   --server-data-dir='/tmp/run' \
   --server-user=$(whoami)

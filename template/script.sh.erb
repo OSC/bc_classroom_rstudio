@@ -14,7 +14,7 @@ module load project/classroom xalt/latest classroom_rstudio/<%= context.r_versio
 export WORKING_DIR="<%= session.staged_root %>"
 export RSTUDIO_AUTH="$WORKING_DIR/bin/auth"
 
-<%- if context.r_version > '4.2' -%>
+<%- if context.r_version >= '4.2.1' -%>
 export PATH="$PATH:/usr/lib/rstudio-server/bin"
 <%- end -%>
 

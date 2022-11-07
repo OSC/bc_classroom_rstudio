@@ -14,6 +14,10 @@ module load project/classroom xalt/latest classroom_rstudio/<%= context.r_versio
 export WORKING_DIR="<%= session.staged_root %>"
 export RSTUDIO_AUTH="$WORKING_DIR/bin/auth"
 
+<%- if context.r_version >= '4.2.1' -%>
+export PATH="$PATH:/usr/lib/rstudio-server/bin"
+<%- end -%>
+
 CLASS_DIR="$HOME/osc_classes/${OSC_CLASS_ID:-osc_class}"
 
 # Copy over classroom materials if the env variable exists
@@ -45,6 +49,7 @@ sed 's/^ \{2\}//' > "$WORKING_DIR/rsession.sh" << EOL
   export MODULEPATH_ROOT="$MODULEPATH_ROOT"
   export MODULEPATH="$MODULEPATH"
   export LMOD_PKG="$LMOD_PKG"
+  export PATH="$PATH"
 
   # Launch the original command
   echo "Launching rsession..."

@@ -3,24 +3,30 @@
     groups.unshift(groups.delete(OodSupport::Process.group))
   end.map(&:name).grep(/^P./)
 
-  classrooms = OodAppkit.clusters.each_with_object({}) do |cluster, hash|
-    if cluster.kubernetes?
-      hash.merge!(cluster.custom_config[:classrooms].to_h)
-    end
-  end.select do |k,v|
-    k.start_with?('rstudio') && groups.include?(v)
-  end.map do |k,v|
-    tokens = k.gsub('rstudio/', '').split('/')
+  classrooms = OodAppkit.clusters.map do |cluster|
+    [ cluster.id.to_s, cluster.custom_config[:classrooms].to_h ]
+  end.to_h.map do |cluster_id, classrooms|
+    classes = classrooms.select do |app_type, class_configs|
+      app_type == 'rstudio'
+    end.map do |_app_type, class_configs|
+      class_configs.map do |name, class_config|
 
-    {
-      name: tokens[0].nil? ? 'unknown' : tokens[0],
-      size: tokens[1].nil? ? 1 : tokens[1].to_i,
-      time: tokens[2].nil? ? 1 : tokens[2].to_i,
-      compute_cluster: tokens[3].nil? ? 'pitzer' : tokens[3].to_s,
-      r_version: tokens[4].nil? ? '4.0.2' : tokens[4].to_s,
-      account: v,
-    }
-  end
+        {
+          name: name,
+          size: class_config.fetch('size', 1).to_i,
+          time: class_config.fetch('time', 1).to_i,
+          cluster_fs: class_config.fetch('cluster_fs', 'pitzer'),
+          r_version: class_config.fetch('r_version', '4.0.2'),
+          account: class_config.fetch('project', nil),
+          cluster: cluster_id
+        }
+
+      end.select do |class_config|
+        acct = class_config.fetch(:account, nil)
+        !acct.nil? && groups.include?(acct)
+      end
+    end
+  end.flatten
 -%>
 ---
 cluster:
@@ -32,12 +38,12 @@ form:
   - account
   - size
   - time
-  - compute_cluster
+  - cluster_fs
   - r_version
 attributes:
   account:
     widget: "hidden_field"
-  compute_cluster:
+  cluster_fs:
     widget: "hidden_field"
   r_version:
     widget: "hidden_field"
@@ -111,7 +117,7 @@ attributes:
       - [
         "<%= cr[:name].gsub('_', ' ') %>", "<%= cr[:name] %>",
         data-set-account: "<%= cr[:account] %>",
-        data-set-compute-cluster: "<%= cr[:compute_cluster] %>",
+        data-set-cluster-fs: "<%= cr[:cluster_fs] %>",
         data-set-r-version: "<%= cr[:r_version] %>"
         ]
       <%- end %>

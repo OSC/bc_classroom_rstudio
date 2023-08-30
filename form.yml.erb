@@ -27,7 +27,7 @@
         {
           name: name,
           size: size_to_num(class_config.fetch('size', 'small')),
-          time: class_config.fetch('time', 1).to_i,
+          hours: class_config.fetch('hours', 1).to_i,
           cluster_fs: class_config.fetch('cluster_fs', 'pitzer'),
           r_version: class_config.fetch('r_version', '4.0.2'),
           account: class_config.fetch('project', nil),
@@ -50,7 +50,7 @@ form:
   - classroom
   - account
   - size
-  - time
+  - hours
   - cluster_fs
   - r_version
 attributes:
@@ -60,7 +60,7 @@ attributes:
     widget: "hidden_field"
   r_version:
     widget: "hidden_field"
-  time:
+  hours:
     widget: "select"
     options:
       - [

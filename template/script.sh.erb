@@ -18,12 +18,17 @@ export RSTUDIO_AUTH="$WORKING_DIR/bin/auth"
 export PATH="$PATH:/usr/lib/rstudio-server/bin"
 <%- end -%>
 
-CLASS_DIR="$HOME/osc_classes/${OSC_CLASS_ID:-osc_class}"
+if [[ "$OSC_PROJECT_ID" == "PDE"* ]]; then
+  export CLASS_DIR="/fs/ess/$OSC_PROJECT_ID/$OSC_CLASS_ID/workspace/$(whoami)"
+else
+  export CLASS_DIR="$HOME/osc_classes/$OSC_CLASS_ID"
+fi
+
+mkdir -p "$CLASS_DIR"
 
 # Copy over classroom materials if the env variable exists
 if [[ -n "$OSC_CLASS_FILES" ]]; then
-  set -x  
-  mkdir -p "$CLASS_DIR"
+  set -x
   touch "$CLASS_DIR/0_${OSC_CLASS_ID:-osc_class}.md"
   rsync -avz --ignore-existing "$OSC_CLASS_FILES" "$CLASS_DIR"
   { set +x; } 2>/dev/null
@@ -67,7 +72,6 @@ set -x
 # Launch the RStudio Server
 echo "Starting up rserver..."
 
-cd "$DEST_DIR"
 rserver \
   --www-port 8080 \
   --auth-none 0 \

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
+# Set up classroom environment
 module purge
+source $PWD/classroom_setup.sh
 
 export OSC_CLASS_ID="<%= context.classroom %>"
 export OSC_PROJECT_ID="<%= context.account %>"
-
-module load project/classroom classroom_rstudio/<%= context.r_version %>
 
 #
 # Start RStudio Server

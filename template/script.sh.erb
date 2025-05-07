@@ -14,6 +14,8 @@ export OSC_PROJECT_ID="<%= context.account %>"
 export WORKING_DIR="<%= session.staged_root %>"
 export RSTUDIO_AUTH="$WORKING_DIR/bin/auth"
 
+module load gcc/12.3.0 R-k8s/<%= context.r_version %>
+
 <%- if context.r_version >= '4.2.1' -%>
 export PATH="$PATH:/usr/lib/rstudio-server/bin"
 <%- end -%>

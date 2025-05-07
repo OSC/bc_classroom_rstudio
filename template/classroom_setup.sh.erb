@@ -58,7 +58,7 @@ create_rstudio_classroom() {
   class_dir="$project_dir/$class_id"
   r_libpath="$class_dir/Rpkgs"
 
-  if [[ -d $r_libpath]]; then
+  if [[ -d $r_libpath ]]; then
     echo "The RStudio classroom environment $r_libpath has been created"
     return 0
   fi

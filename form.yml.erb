@@ -28,8 +28,8 @@
           name: name,
           size: size_to_num(class_config.fetch('size', 'small')),
           hours: class_config.fetch('hours', 1).to_i,
-          cluster_fs: class_config.fetch('cluster_fs', 'pitzer'),
-          r_version: class_config.fetch('r_version', '4.0.2'),
+          cluster_fs: class_config.fetch('cluster_fs', 'cardinal'),
+          r_version: class_config.fetch('r_version', '4.4.0'),
           account: class_config.fetch('project', nil),
           cluster: cluster_id
         }

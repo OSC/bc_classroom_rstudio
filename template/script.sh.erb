@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
+# Set up classroom environment
 module purge
+source $PWD/classroom_setup.sh
 
 export OSC_CLASS_ID="<%= context.classroom %>"
 export OSC_PROJECT_ID="<%= context.account %>"
-
-module load project/classroom classroom_rstudio/<%= context.r_version %>
 
 #
 # Start RStudio Server
@@ -13,6 +13,8 @@ module load project/classroom classroom_rstudio/<%= context.r_version %>
 # PAM auth helper used by RStudio
 export WORKING_DIR="<%= session.staged_root %>"
 export RSTUDIO_AUTH="$WORKING_DIR/bin/auth"
+
+module load project/classroom gcc/12.3.0 R/<%= context.r_version %>
 
 <%- if context.r_version >= '4.2.1' -%>
 export PATH="$PATH:/usr/lib/rstudio-server/bin"

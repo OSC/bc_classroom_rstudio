@@ -14,7 +14,7 @@ export OSC_PROJECT_ID="<%= context.account %>"
 export WORKING_DIR="<%= session.staged_root %>"
 export RSTUDIO_AUTH="$WORKING_DIR/bin/auth"
 
-module load project/classroom gcc/12.3.0 R/<%= context.r_version %>
+module load gcc/12.3.0 R/<%= context.r_version %>
 
 <%- if context.r_version >= '4.2.1' -%>
 export PATH="$PATH:/usr/lib/rstudio-server/bin"
@@ -30,7 +30,6 @@ mkdir -p "$CLASS_DIR"
 
 # Copy over classroom materials if the env variable exists
 if [[ -n "$OSC_CLASS_FILES" ]]; then
-  set -x
   touch "$CLASS_DIR/0_${OSC_CLASS_ID:-osc_class}.md"
   rsync -avz --ignore-existing "$OSC_CLASS_FILES" "$CLASS_DIR"
   { set +x; } 2>/dev/null
@@ -60,7 +59,6 @@ sed 's/^ \{2\}//' > "$WORKING_DIR/rsession.sh" << EOL
 
   # Launch the original command
   echo "Launching rsession..."
-  set -x
   exec rsession --r-libs-user "${R_LIBS_USER}" "\${@}"
 EOL
 )
@@ -70,7 +68,6 @@ mkdir -p "$WORKING_DIR/logs"
 # Output debug info
 module list
 
-set -x
 # Launch the RStudio Server
 echo "Starting up rserver..."
 

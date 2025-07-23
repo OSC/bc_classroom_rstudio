@@ -67,6 +67,14 @@ attributes:
           "1.5 hours", "1.5",
         ]
       - [
+          "2 hours", "2",
+          <%- classrooms.each do |cr| %>
+            <%- unless cr[:hours].to_i >= 2 %>
+            data-option-for-classroom-<%= cr[:name].to_s.gsub('_', '-') %>: false,
+            <%- end %>
+          <%- end %>
+        ]
+      - [
           "3 hours", "3",
           <%- classrooms.each do |cr| %>
             <%- unless cr[:hours].to_i >= 3 %>

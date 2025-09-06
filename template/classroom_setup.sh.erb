@@ -49,8 +49,8 @@ create_classroom_directory() {
   echo "Creating materials directory $class_dir/materials"
   mkdir -v -p $class_dir/materials
 
-  echo "Creating Rpkgs directory $class_dir/Rpkgs"
-  mkdir -v -p $class_dir/Rpkgs
+  echo "Creating workspace directory $class_dir/workspace"
+  mkdir -v -p $class_dir/workspace
 }
 
 create_rstudio_classroom() {
@@ -66,6 +66,9 @@ create_rstudio_classroom() {
   if [[ ! -d $class_dir ]]; then
     create_classroom_directory $class_dir
   fi
+
+  echo "Creating Rpkgs directory $r_libpath"
+  mkdir -v -p $r_libpath
 }
 
 project_dir=$(find_project_directory)

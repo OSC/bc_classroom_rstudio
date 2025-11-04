@@ -1,5 +1,5 @@
 # Classroom Rstudio App
-This is a simplified Rstudio OnDemand app that the Ohio Supercomputer Center uses for classrooms deployed via kubernetes. This guide assumes you already know [how]([https://osc.github.io/ood-documentation/release-1.8/app-development/tutorials-interactive-apps/add-jupyter.html](https://osc.github.io/ood-documentation/release-1.8/app-development/tutorials-interactive-apps/add-rstudio.html)) to deploy Rstudio via Open OnDemand. It focuses on customizing the classroom app to support isolated and shared R environments using OSC project spaces, where instructors can share packages and materials with students.
+This is a simplified Rstudio OnDemand app that the Ohio Supercomputer Center uses for classrooms deployed via kubernetes. This guide assumes you already know [how](https://osc.github.io/ood-documentation/release-1.8/app-development/tutorials-interactive-apps/add-rstudio.html) to deploy Rstudio via Open OnDemand. It focuses on customizing the classroom app to support isolated and shared R environments using OSC project spaces, where instructors can share packages and materials with students.
 
 OSC’s classroom Rstudio app allows instructors to:
 
